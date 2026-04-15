@@ -333,7 +333,7 @@ export function ImportarPdfClient() {
               <ul className="divide-y divide-zinc-800 max-h-80 overflow-y-auto">
                 {transactions.map((tx, i) => (
                   <li
-                    key={`${tx.date}-${tx.description}-${i}`}
+                    key={`${tx.date}-${tx.description}-${tx.amount}-${tx.type}`}
                     className="flex items-center justify-between px-6 py-3 gap-4"
                   >
                     <div className="min-w-0">
