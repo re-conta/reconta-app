@@ -8,6 +8,7 @@ import { ContasClient } from "@/components/bills/contas-client";
 import { RelatoriosClient } from "@/components/reports/relatorios-client";
 import { CategoriasClient } from "@/components/categories/categorias-client";
 import { ContasBancariasClient } from "@/components/accounts/contas-bancarias-client";
+import { ImportarPdfClient } from "@/components/import/importar-pdf-client";
 import { getCurrentMonth } from "@/lib/utils";
 
 function AppLayout({ children }: { children: React.ReactNode }) {
@@ -78,6 +79,15 @@ function ContasBancariasPage() {
   );
 }
 
+function ImportarPdfPage() {
+  return (
+    <>
+      <Header title="Importar PDF" description="Importe transacoes de extratos bancarios" />
+      <ImportarPdfClient />
+    </>
+  );
+}
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -89,6 +99,7 @@ export default function App() {
           <Route path="/relatorios" element={<RelatoriosPage />} />
           <Route path="/categorias" element={<CategoriasPage />} />
           <Route path="/contas-bancarias" element={<ContasBancariasPage />} />
+          <Route path="/importar" element={<ImportarPdfPage />} />
         </Routes>
       </AppLayout>
     </BrowserRouter>

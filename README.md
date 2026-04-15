@@ -29,6 +29,16 @@ pnpm tauri build
 
 O build gera o instalador nativo em `src-tauri/target/release/bundle/`.
 
+## Limpeza de builds
+
+Caso precise recompilar do zero (ex: após mudanças no backend Rust):
+
+```bash
+pnpm clean
+```
+
+Remove a pasta `src-tauri/target` inteira (~4 GB). O próximo `pnpm tauri dev` ou `pnpm tauri build` recompila tudo.
+
 ## IDE Recomendada
 
 - [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)

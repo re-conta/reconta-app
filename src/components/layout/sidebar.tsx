@@ -2,6 +2,7 @@ import {
   AlertCircle,
   BarChart3,
   BookOpen,
+  FileUp,
   Home,
   Menu,
   Tags,
@@ -19,6 +20,7 @@ const navigation = [
   { name: "Relatorios", href: "/relatorios", icon: BarChart3 },
   { name: "Categorias", href: "/categorias", icon: Tags },
   { name: "Contas Bancarias", href: "/contas-bancarias", icon: Wallet },
+  { name: "Importar PDF", href: "/importar", icon: FileUp },
 ];
 
 export function Sidebar() {
@@ -87,7 +89,8 @@ export function Sidebar() {
               const isActive =
                 item.href === "/"
                   ? location.pathname === "/"
-                  : location.pathname.startsWith(item.href);
+                  : location.pathname === item.href ||
+                    location.pathname.startsWith(`${item.href}/`);
               return (
                 <li key={item.href}>
                   <NavLink
