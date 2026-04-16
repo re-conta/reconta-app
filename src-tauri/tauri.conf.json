@@ -1,6 +1,6 @@
 {
   "productName": "ReConta",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "identifier": "app.reconta.desktop",
   "build": {
     "beforeDevCommand": "pnpm dev",
