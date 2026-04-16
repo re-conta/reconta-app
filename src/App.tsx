@@ -1,15 +1,45 @@
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Sidebar } from "@/components/layout/sidebar";
 import { Header } from "@/components/layout/header";
 import { MonthProvider } from "@/components/layout/month-context";
-import { DashboardClient } from "@/components/dashboard/dashboard-client";
-import { TransacoesClient } from "@/components/transactions/transacoes-client";
-import { ContasClient } from "@/components/bills/contas-client";
-import { RelatoriosClient } from "@/components/reports/relatorios-client";
-import { CategoriasClient } from "@/components/categories/categorias-client";
-import { ContasBancariasClient } from "@/components/accounts/contas-bancarias-client";
-import { ImportarPdfClient } from "@/components/import/importar-pdf-client";
 import { getCurrentMonth } from "@/lib/utils";
+
+const DashboardClient = lazy(() =>
+  import("@/components/dashboard/dashboard-client").then((m) => ({
+    default: m.DashboardClient,
+  }))
+);
+const TransacoesClient = lazy(() =>
+  import("@/components/transactions/transacoes-client").then((m) => ({
+    default: m.TransacoesClient,
+  }))
+);
+const ContasClient = lazy(() =>
+  import("@/components/bills/contas-client").then((m) => ({
+    default: m.ContasClient,
+  }))
+);
+const RelatoriosClient = lazy(() =>
+  import("@/components/reports/relatorios-client").then((m) => ({
+    default: m.RelatoriosClient,
+  }))
+);
+const CategoriasClient = lazy(() =>
+  import("@/components/categories/categorias-client").then((m) => ({
+    default: m.CategoriasClient,
+  }))
+);
+const ContasBancariasClient = lazy(() =>
+  import("@/components/accounts/contas-bancarias-client").then((m) => ({
+    default: m.ContasBancariasClient,
+  }))
+);
+const ImportarPdfClient = lazy(() =>
+  import("@/components/import/importar-pdf-client").then((m) => ({
+    default: m.ImportarPdfClient,
+  }))
+);
 
 function AppLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -24,84 +54,87 @@ function AppLayout({ children }: { children: React.ReactNode }) {
   );
 }
 
-function DashboardPage() {
-  return (
-    <>
-      <Header title="Dashboard" description="Visao geral das suas financas" />
-      <DashboardClient />
-    </>
-  );
-}
-
-function TransacoesPage() {
-  return (
-    <>
-      <Header title="Lancamentos" description="Gerencie suas receitas e despesas" />
-      <TransacoesClient />
-    </>
-  );
-}
-
-function ContasPage() {
-  const { month, year } = getCurrentMonth();
-  return (
-    <>
-      <Header title="Contas Fixas" description="Controle suas contas mensais" />
-      <ContasClient initialMonth={month} initialYear={year} />
-    </>
-  );
-}
-
-function RelatoriosPage() {
-  return (
-    <>
-      <Header title="Relatorios" description="Analise detalhada das suas financas" />
-      <RelatoriosClient />
-    </>
-  );
-}
-
-function CategoriasPage() {
-  return (
-    <>
-      <Header title="Categorias" description="Organize seus lancamentos" />
-      <CategoriasClient />
-    </>
-  );
-}
-
-function ContasBancariasPage() {
-  return (
-    <>
-      <Header title="Contas Bancarias" description="Gerencie suas contas" />
-      <ContasBancariasClient />
-    </>
-  );
-}
-
-function ImportarPdfPage() {
-  return (
-    <>
-      <Header title="Importar PDF" description="Importe transacoes de extratos bancarios" />
-      <ImportarPdfClient />
-    </>
-  );
+function LoadingFallback() {
+  return <div className="flex items-center justify-center h-screen">Carregando...</div>;
 }
 
 export default function App() {
   return (
     <BrowserRouter>
       <AppLayout>
-        <Routes>
-          <Route path="/" element={<DashboardPage />} />
-          <Route path="/transacoes" element={<TransacoesPage />} />
-          <Route path="/contas" element={<ContasPage />} />
-          <Route path="/relatorios" element={<RelatoriosPage />} />
-          <Route path="/categorias" element={<CategoriasPage />} />
-          <Route path="/contas-bancarias" element={<ContasBancariasPage />} />
-          <Route path="/importar" element={<ImportarPdfPage />} />
-        </Routes>
+        <Suspense fallback={<LoadingFallback />}>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <Header title="Dashboard" description="Visao geral das suas financas" />
+                  <DashboardClient />
+                </>
+              }
+            />
+            <Route
+              path="/transacoes"
+              element={
+                <>
+                  <Header title="Lancamentos" description="Gerencie suas receitas e despesas" />
+                  <TransacoesClient />
+                </>
+              }
+            />
+            <Route
+              path="/contas"
+              element={
+                <>
+                  <Header title="Contas Fixas" description="Controle suas contas mensais" />
+                  <ContasClientWrapper />
+                </>
+              }
+            />
+            <Route
+              path="/relatorios"
+              element={
+                <>
+                  <Header title="Relatorios" description="Analise detalhada das suas financas" />
+                  <RelatoriosClient />
+                </>
+              }
+            />
+            <Route
+              path="/categorias"
+              element={
+                <>
+                  <Header title="Categorias" description="Organize seus lancamentos" />
+                  <CategoriasClient />
+                </>
+              }
+            />
+            <Route
+              path="/contas-bancarias"
+              element={
+                <>
+                  <Header title="Contas Bancarias" description="Gerencie suas contas" />
+                  <ContasBancariasClient />
+                </>
+              }
+            />
+            <Route
+              path="/importar"
+              element={
+                <>
+                  <Header title="Importar PDF" description="Importe transacoes de extratos bancarios" />
+                  <ImportarPdfClient />
+                </>
+              }
+            />
+          </Routes>
+        </Suspense>
       </AppLayout>
     </BrowserRouter>
   );
+}
+
+function ContasClientWrapper() {
+  const { month, year } = getCurrentMonth();
+  return <ContasClient initialMonth={month} initialYear={year} />;
 }
