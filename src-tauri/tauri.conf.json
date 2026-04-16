@@ -1,7 +1,6 @@
 {
-  "$schema": "https://schema.tauri.app/config/2",
   "productName": "ReConta",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "identifier": "app.reconta.desktop",
   "build": {
     "beforeDevCommand": "pnpm dev",
