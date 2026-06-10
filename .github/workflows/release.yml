@@ -70,6 +70,6 @@ jobs:
           releaseName: 'ReConta ${{ github.ref_name }}'
           releaseBody: |
             Veja os assets abaixo para baixar o instalador para o seu sistema operacional.
-          releaseDraft: true
+          releaseDraft: false
           prerelease: false
           args: ${{ matrix.args }}
