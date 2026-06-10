@@ -1,0 +1,11 @@
+version: 2
+updates:
+  - package-ecosystem: "cargo"
+    directory: "/src-tauri"
+    schedule:
+      interval: "weekly"
+    ignore:
+      # glib is pinned to ^0.18 transitively by the gtk3-rs/webkit2gtk-rs
+      # stack used by Tauri's Linux webview. No release of that stack
+      # depends on glib 0.20+ yet, so this update can never be resolved.
+      - dependency-name: "glib"
